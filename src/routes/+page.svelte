@@ -1,2 +1,14 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<script lang="ts">
+	import { chooseTodayLevels } from '$lib/rng';
+
+	async function hi() {
+		console.log(await chooseTodayLevels());
+	}
+
+	hi();
+</script>
+
+<div class="card">
+	<p>Three levels are picked fresh each day. Same for everyone, until midnight UTC.</p>
+	<button class="primary">Start today's round</button>
+</div>

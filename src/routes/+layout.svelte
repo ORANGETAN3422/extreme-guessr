@@ -6,4 +6,12 @@
 </script>
 
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
-{@render children()}
+
+<header class="app-header">
+	<h1>Extreme Guessr</h1>
+	<span class="tag">daily rounds</span>
+</header>
+
+<main class="app-main">
+	{@render children()}
+</main>
