@@ -36,10 +36,12 @@ export interface Verification {
 
 const allLevelsEndpoint = 'https://aredl-roulette.vercel.app/api/aredl/levels/';
 const levelEndpoint = 'https://aredl-roulette.vercel.app/api/aredl/level/';
-const thumbnailEndpoint = (level_id: number) =>
+export const thumbnailEndpoint = (level_id: number) =>
 	`https://levelthumbs.prevter.me/thumbnail/${level_id}/high`;
 
-async function fetchTemplate<T>(url: string) {
+type Fetch = typeof globalThis.fetch;
+
+async function fetchTemplate<T>(url: string, fetch: Fetch) {
 	try {
 		const response = await fetch(url);
 		if (!response.ok) {
@@ -54,5 +56,6 @@ async function fetchTemplate<T>(url: string) {
 	}
 }
 
-export const getAllLevels = () => fetchTemplate<Level[]>(allLevelsEndpoint);
-export const getLevel = (level_id: number) => fetchTemplate<Level>(`${levelEndpoint}${level_id}`);
+export const getAllLevels = (fetch: Fetch) => fetchTemplate<Level[]>(allLevelsEndpoint, fetch);
+export const getLevel = (level_id: number, fetch: Fetch) =>
+	fetchTemplate<Level>(`${levelEndpoint}${level_id}`, fetch);

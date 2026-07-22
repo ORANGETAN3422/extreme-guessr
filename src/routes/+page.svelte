@@ -1,11 +1,4 @@
 <script lang="ts">
-	import { chooseTodayLevels } from '$lib/rng';
-
-	async function hi() {
-		console.log(await chooseTodayLevels());
-	}
-
-	hi();
 </script>
 
 <div class="card">

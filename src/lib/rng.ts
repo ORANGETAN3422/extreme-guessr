@@ -44,12 +44,17 @@ const msPerDay = 86400000;
 
 function getDateRng(date: Date) {
 	const n = date.getTime();
-	return createRNG(n - (n % msPerDay));
+	return createRNG(n - (n % msPerDay)); // snaps to midnight so number is consistent
 }
 
-export async function chooseLevels(date: Date) {
+export function getToday() {
+    const n = Date.now();
+    return new Date(n - (n % msPerDay));
+}
+
+export async function chooseLevels(date: Date, fetch: typeof globalThis.fetch) {
 	const rng = getDateRng(date);
-	const levels = await getAllLevels();
+	const levels = await getAllLevels(fetch);
 
 	if (!levels) {
 		console.log('there are no levels');
@@ -60,10 +65,8 @@ export async function chooseLevels(date: Date) {
 	for (let i = 0; i < 3; i++) {
 		const n = Math.floor(rng() * levels.length);
 		chosen[i] = levels[n];
-		levels.splice(n);
+		levels.splice(n, 1);
 	}
 
 	return chosen;
 }
-
-export const chooseTodayLevels = () => chooseLevels(new Date(Date.now()));
