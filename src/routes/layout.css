@@ -2,17 +2,15 @@
 @plugin '@tailwindcss/forms';
 
 :root {
-	/* palette — flat neutral dark, one muted accent */
-	--bg: #16181d;
-	--surface: #1e2127;
-	--surface-2: #262a31;
-	--border: #30343c;
-	--text: #ece7e7;
-	--text-muted: #a89a9a;
-	--accent: #e4322b;
-	--accent-hover: #ff4b3f;
+	--bg: #191b21;
+	--surface: #23262e;
+	--surface-2: #2c303a;
+	--border: #383d47;
+	--text: #e6e7ea;
+	--text-muted: #9aa0ab;
+	--accent: #ed7a34;
+	--accent-hover: #ff9550;
 
-	/* scale */
 	--radius: 6px;
 	--gap: 1rem;
 	--font: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
@@ -36,34 +34,57 @@ body {
 	-webkit-font-smoothing: antialiased;
 }
 
-a {
-	color: var(--accent);
-	text-decoration: none;
-}
+@layer base {
+	a {
+		color: var(--accent);
+		text-decoration: none;
+	}
 
-a:hover {
-	color: var(--accent-hover);
+	a:hover {
+		color: var(--accent-hover);
+	}
 }
 
 .app-header {
 	display: flex;
-	align-items: baseline;
-	gap: 0.6rem;
+	align-items: center;
+	gap: 1.25rem;
 	padding: 0.9rem 1.25rem;
 	border-bottom: 1px solid var(--border);
 	background: var(--surface);
 }
 
-.app-header h1 {
-	margin: 0;
+.app-header .brand {
+	color: var(--text);
 	font-size: 1.05rem;
 	font-weight: 600;
 	letter-spacing: 0.01em;
 }
 
-.app-header .tag {
-	font-size: 0.8rem;
+.app-nav {
+	display: flex;
+	gap: 0.35rem;
+}
+
+.app-nav .nav-link {
 	color: var(--text-muted);
+	font-size: 0.9rem;
+	font-weight: 500;
+	padding: 0.35rem 0.7rem;
+	border-radius: var(--radius);
+	transition:
+		color 0.15s,
+		background 0.15s;
+}
+
+.app-nav .nav-link:hover {
+	color: var(--text);
+	background: var(--surface-2);
+}
+
+.app-nav .nav-link.active {
+	color: var(--accent);
+	background: var(--surface-2);
 }
 
 .app-main {
@@ -105,7 +126,7 @@ button:disabled {
 button.primary {
 	background: var(--accent);
 	border-color: var(--accent);
-	color: #fff;
+	color: #1c1810;
 	font-weight: 600;
 }
 

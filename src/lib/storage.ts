@@ -1,6 +1,6 @@
 export interface ScreenshotScore {
 	completed: boolean;
-    progress: number;
+	progress: number;
 	score: number;
 	date: string;
 }

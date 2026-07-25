@@ -73,7 +73,7 @@
 	});
 </script>
 
-<div class="mx-auto w-[90%] rounded-md bg-black p-4">
+<div class="mx-auto w-[90%] rounded-md border border-(--border) bg-(--surface) p-4">
 	{#if info.completed}
 		<div class="py-6 text-center">
 			<h1 class="text-xs font-bold tracking-widest text-(--text-muted) uppercase">Final Score</h1>
@@ -107,7 +107,7 @@
 		<br />
 		<a
 			href={resolve('/screenshot/')}
-			class="rounded-md border border-(--border) bg-(--surface) px-3 py-3 text-center font-medium transition-colors hover:border-(--accent)"
+			class="mx-auto block w-fit rounded-md border border-(--border) bg-(--surface) px-3 py-3 text-center font-medium transition-colors hover:border-(--accent)"
 		>
 			Return
 		</a>
