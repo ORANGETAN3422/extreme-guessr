@@ -1,4 +1,4 @@
-import { getAllLevels, type Level } from './api';
+import { getAllLevels, type Level } from './api.svelte.ts';
 
 // General rng stuff
 export function sfc32(a: number, b: number, c: number, d: number) {
@@ -48,8 +48,8 @@ function getDateRng(date: Date) {
 }
 
 export function getToday() {
-    const n = Date.now();
-    return new Date(n - (n % msPerDay));
+	const n = Date.now();
+	return new Date(n - (n % msPerDay));
 }
 
 export async function chooseLevels(date: Date, fetch: typeof globalThis.fetch) {

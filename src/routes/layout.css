@@ -90,8 +90,16 @@ button {
 	cursor: pointer;
 }
 
-button:hover {
+button:hover:not(:disabled) {
 	border-color: var(--accent);
+}
+
+button:disabled {
+	color: var(--text-muted);
+	background: var(--surface);
+	border-color: var(--border);
+	opacity: 0.5;
+	cursor: not-allowed;
 }
 
 button.primary {

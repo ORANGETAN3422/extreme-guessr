@@ -56,6 +56,13 @@ async function fetchTemplate<T>(url: string, fetch: Fetch) {
 	}
 }
 
-export const getAllLevels = (fetch: Fetch) => fetchTemplate<Level[]>(allLevelsEndpoint, fetch);
+export const allLevelNames = $state<{ names: string[] }>({ names: [] });
+export async function getAllLevels(fetch: Fetch): Promise<Level[] | undefined> {
+	const levels = await fetchTemplate<Level[]>(allLevelsEndpoint, fetch);
+	if (!levels) return;
+
+	allLevelNames.names = levels.map((l) => l.name);
+	return levels;
+}
 export const getLevel = (level_id: number, fetch: Fetch) =>
 	fetchTemplate<Level>(`${levelEndpoint}${level_id}`, fetch);

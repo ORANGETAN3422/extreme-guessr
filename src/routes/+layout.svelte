@@ -8,8 +8,8 @@
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
 
 <header class="app-header">
-	<h1>Extreme Guessr</h1>
-	<span class="tag">daily rounds</span>
+	<h1>Extreme Guessinght</h1>
+	<span class="tag">h</span>
 </header>
 
 <main class="app-main">
