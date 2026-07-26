@@ -36,7 +36,7 @@
 	const revealed = $derived(current.completed ? totalHints : current.hintsUnlocked);
 
 	const zoomClass = () => (revealed === 0 ? 'scale-[3]' : '');
-	const blurClass = () => (revealed < 2 ? 'blur-md' : '');
+	const blurClass = () => (revealed < 2 ? 'blur-sm sm:blur-md' : '');
 	const showName = () => revealed >= 3;
 
 	function unlockHint(n: number) {
@@ -128,7 +128,7 @@
 			</div>
 		</div>
 
-		<div class="mt-4 flex flex-row justify-center gap-2">
+		<div class="mt-4 flex flex-row flex-wrap justify-center gap-2">
 			{#each { length: totalHints }, i}
 				<button
 					class={!current.completed && i + 1 === current.hintsUnlocked + 1 ? 'primary' : ''}
@@ -142,7 +142,7 @@
 
 		{#if showName()}
 			<h1
-				class={`mt-6 text-center text-2xl font-bold ${!current.completed ? 'tracking-[0.25em]' : ''}`}
+				class={`mt-6 px-2 text-center text-xl font-bold break-words sm:text-2xl ${!current.completed ? 'tracking-[0.12em] sm:tracking-[0.25em]' : ''}`}
 			>
 				{!current.completed ? createNameHint() : currentLevel.name}
 			</h1>
