@@ -73,16 +73,18 @@
 	});
 </script>
 
-<div class="mx-auto w-[90%] rounded-md border border-(--border) bg-(--surface) p-4">
+<div class="mx-auto w-[90%] rounded-md border-2 border-(--border) bg-(--surface) p-4">
 	{#if info.completed}
 		<div class="py-6 text-center">
 			<h1 class="text-xs font-bold tracking-widest text-(--text-muted) uppercase">Final Score</h1>
 			<p class="mt-1 text-5xl font-bold text-(--accent)">{totalScore.toLocaleString()}</p>
 		</div>
 
-		<div class="flex flex-col">
+		<div class="flex flex-col gap-2">
 			{#each info.screenshots as s, i (s.level.id)}
-				<div class="flex w-full items-center gap-4 py-3">
+				<div
+					class="flex w-full items-center gap-4 rounded-md border-2 border-(--border) bg-(--sunken) p-3"
+				>
 					<img
 						src={thumbnailEndpoint(s.level.level_id)}
 						alt={s.level.name}
@@ -92,7 +94,7 @@
 						<p class="truncate font-medium">
 							<span class={s.correct ? 'text-green-500' : 'text-red-500'}>{s.level.name}</span>
 						</p>
-						<p class="text-sm text-(--muted)">
+						<p class="text-sm text-(--text-muted)">
 							Round {i + 1}
 						</p>
 					</div>
@@ -107,7 +109,7 @@
 		<br />
 		<a
 			href={resolve('/screenshot/')}
-			class="mx-auto block w-fit rounded-md border border-(--border) bg-(--surface) px-3 py-3 text-center font-medium transition-colors hover:border-(--accent)"
+			class="mx-auto block w-fit rounded-md border-2 border-(--border) bg-(--surface-2) px-3 py-3 text-center font-medium transition-colors hover:border-(--accent)"
 		>
 			Return
 		</a>
@@ -116,12 +118,14 @@
 			Round {info.currentRound + 1}
 		</h2>
 
-		<div class={`${blurClass()} w-fit overflow-hidden rounded-md`}>
-			<img
-				src={thumbnailEndpoint(currentLevel.level_id)}
-				alt="level thumbnail"
-				class={`${zoomClass()} block max-w-full origin-center`}
-			/>
+		<div class="flex justify-center rounded-md border-2 border-(--border) bg-(--sunken) p-4">
+			<div class={`${blurClass()} w-fit overflow-hidden rounded-md`}>
+				<img
+					src={thumbnailEndpoint(currentLevel.level_id)}
+					alt="level thumbnail"
+					class={`${zoomClass()} block max-w-full origin-center`}
+				/>
+			</div>
 		</div>
 
 		<div class="mt-4 flex flex-row justify-center gap-2">

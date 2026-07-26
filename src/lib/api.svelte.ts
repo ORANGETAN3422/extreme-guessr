@@ -34,6 +34,13 @@ export interface Verification {
 	updated_at: string;
 }
 
+export interface DailyInfo {
+	lastUpdate: string;
+	days: Record<string, number[]>;
+}
+
+import { base } from "$app/paths";
+
 const allLevelsEndpoint = 'https://aredl-roulette.vercel.app/api/aredl/levels/';
 const levelEndpoint = 'https://aredl-roulette.vercel.app/api/aredl/level/';
 export const thumbnailEndpoint = (level_id: number) =>
@@ -66,3 +73,28 @@ export async function getAllLevels(fetch: Fetch): Promise<Level[] | undefined> {
 }
 export const getLevel = (level_id: number, fetch: Fetch) =>
 	fetchTemplate<Level>(`${levelEndpoint}${level_id}`, fetch);
+
+
+export const getDailyInfo = (fetch: Fetch) =>
+	fetchTemplate<DailyInfo>(`${base}/daily.json`, fetch);
+
+export async function getDailyLevels(
+	dateKey: string,
+	fetch: Fetch
+): Promise<Level[] | undefined> {
+	const daily = await getDailyInfo(fetch);
+	const ids = daily?.days[dateKey];
+	if (!ids) return;
+
+	const all = await getAllLevels(fetch);
+	if (!all) return;
+
+	const byLevelId: Record<number, Level> = {};
+	for (const level of all) {
+		byLevelId[level.level_id] = level;
+	}
+
+	const chosen = ids.map((id) => byLevelId[id]).filter((l): l is Level => !!l);
+
+	return chosen.length === ids.length ? chosen : undefined;
+}

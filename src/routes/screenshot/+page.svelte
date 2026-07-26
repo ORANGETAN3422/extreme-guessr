@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
 	import { loadScreenshotAllScores, loadScreenshotDay, type ScreenshotScore } from '$lib/storage';
-	import { thumbnailEndpoint } from '$lib/api.svelte';
+	import { thumbnailEndpoint, getDailyInfo } from '$lib/api.svelte';
 	import type { ScreenshotProgress } from './[slug]/+page';
 	import { onMount } from 'svelte';
 
@@ -11,6 +11,11 @@
 		const dd = String(d.getUTCDate()).padStart(2, '0');
 		const mm = String(d.getUTCMonth() + 1).padStart(2, '0');
 		return `${dd}-${mm}-${d.getUTCFullYear()}`;
+	}
+
+	function keyToMs(key: string): number {
+		const [dd, mm, yyyy] = key.split('-').map(Number);
+		return Date.UTC(yyyy, mm - 1, dd);
 	}
 
 	function displayDate(slug: string): string {
@@ -25,25 +30,30 @@
 
 	const todayMs = Date.now() - (Date.now() % msPerDay);
 	const today = formatDate(new Date(todayMs));
-	const previousDays = Array.from({ length: 50 }, (_, i) =>
-		formatDate(new Date(todayMs - (i + 1) * msPerDay))
-	);
 
-	const perPage = 20;
-	const pageCount = Math.ceil(previousDays.length / perPage);
+	const perPage = 21;
 
 	let view = $state<'home' | 'previous'>('home');
 	let page = $state(0);
 	let scoreInfo = $state<ScreenshotScore[] | undefined>();
 	let todayProgress = $state<ScreenshotProgress | undefined>();
+	let dailyDays = $state<string[]>([]);
 
+	// only real, past days from daily.json — newest first
+	const previousDays = $derived(
+		dailyDays.filter((k) => keyToMs(k) < todayMs).sort((a, b) => keyToMs(b) - keyToMs(a))
+	);
+	const pageCount = $derived(Math.max(1, Math.ceil(previousDays.length / perPage)));
 	const pageDays = $derived(previousDays.slice(page * perPage, (page + 1) * perPage));
 	const scoreFor = (day: string) => scoreInfo?.find((s) => s.date === day);
 	const todayScore = $derived(todayProgress?.screenshots.reduce((sum, s) => sum + s.score, 0) ?? 0);
 
-	onMount(() => {
+	onMount(async () => {
 		scoreInfo = loadScreenshotAllScores();
 		todayProgress = loadScreenshotDay(today);
+
+		const info = await getDailyInfo(fetch);
+		if (info) dailyDays = Object.keys(info.days);
 	});
 </script>
 
@@ -60,7 +70,7 @@
 
 			<div class="flex flex-col gap-3">
 				{#if todayProgress?.completed}
-					<div class="rounded-md border border-(--border) bg-(--surface) p-4">
+					<div class="rounded-md border-2 border-(--border) bg-(--surface) p-4">
 						<div class="pb-2 text-center">
 							<h2 class="text-xs font-bold tracking-widest text-(--text-muted) uppercase">
 								Today's Score
@@ -70,9 +80,11 @@
 							</p>
 						</div>
 
-						<div class="flex flex-col">
+						<div class="flex flex-col gap-2">
 							{#each todayProgress.screenshots as s, i (s.level.id)}
-								<div class="flex w-full items-center gap-4 py-3 text-left">
+								<div
+									class="flex w-full items-center gap-4 rounded-md border-2 border-(--border) bg-(--sunken) p-3 text-left"
+								>
 									<img
 										src={thumbnailEndpoint(s.level.level_id)}
 										alt={s.level.name}
@@ -103,12 +115,20 @@
 						{todayProgress ? 'Continue Today' : 'Play Today'}
 					</a>
 				{/if}
-				<button
-					class="rounded-md border border-(--border) bg-(--surface) px-4 py-3 font-semibold transition-colors hover:border-(--accent)"
-					onclick={() => (view = 'previous')}
-				>
-					Play Previous Days
-				</button>
+				<div class="flex flex-row gap-1">
+					<button
+						class="w-full rounded-md border-2 border-(--border) bg-(--surface-2) px-4 py-3 font-semibold transition-colors hover:border-(--accent)"
+						onclick={() => (view = 'previous')}
+					>
+						Play Previous Days
+					</button>
+					<button
+						class="w-full rounded-md border-2 border-(--border) bg-(--surface-2) px-4 py-3 font-semibold transition-colors hover:border-(--accent)"
+						onclick={() => (open(resolve('/'), "_self"))}
+					>
+						Back
+					</button>
+				</div>
 			</div>
 		</div>
 	{:else}
@@ -123,23 +143,27 @@
 			<span class="w-12"></span>
 		</div>
 
-		<div class="grid grid-cols-2 gap-2 sm:grid-cols-3">
-			{#each pageDays as day (day)}
-				{@const score = scoreFor(day)}
-				<a
-					href={resolve('/screenshot/[slug]', { slug: day })}
-					class="flex flex-col items-center gap-1 rounded-md border border-(--border) bg-(--surface) px-3 py-3 text-center transition-colors hover:border-(--accent)"
-				>
-					<span class="font-medium text-(--text)">{displayDate(day)}</span>
-					{#if score?.completed}
-						<span class="text-sm font-bold text-(--accent)">{score.score.toLocaleString()} pts</span
-						>
-					{:else if score}
-						<span class="text-xs text-(--text-muted)">In progress</span>
-					{/if}
-				</a>
-			{/each}
-		</div>
+		{#if previousDays.length === 0}
+			<p class="py-10 text-center text-sm text-(--text-muted)">No previous days yet.</p>
+		{:else}
+			<div class="grid grid-cols-2 gap-2 sm:grid-cols-3">
+				{#each pageDays as day (day)}
+					{@const score = scoreFor(day)}
+					<a
+						href={resolve('/screenshot/[slug]', { slug: day })}
+						class="flex flex-col items-center gap-1 rounded-md border-2 border-(--border) bg-(--surface-2) px-3 py-3 text-center transition-colors hover:border-(--accent)"
+					>
+						<span class="font-medium text-(--text)">{displayDate(day)}</span>
+						{#if score?.completed}
+							<span class="text-sm font-bold text-(--accent)">{score.score.toLocaleString()} pts</span
+							>
+						{:else if score}
+							<span class="text-xs text-(--text-muted)">In progress</span>
+						{/if}
+					</a>
+				{/each}
+			</div>
+		{/if}
 
 		{#if pageCount > 1}
 			<div class="mt-5 flex items-center justify-center gap-4">

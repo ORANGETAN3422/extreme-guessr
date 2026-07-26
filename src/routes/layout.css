@@ -2,12 +2,13 @@
 @plugin '@tailwindcss/forms';
 
 :root {
-	--bg: #191b21;
-	--surface: #23262e;
-	--surface-2: #2c303a;
-	--border: #383d47;
-	--text: #e6e7ea;
-	--text-muted: #9aa0ab;
+	--bg: #0c0d10;
+	--sunken: #050506;
+	--surface: #16181d;
+	--surface-2: #20232b;
+	--border: #10131a;
+	--text: #f1f2f5;
+	--text-muted: #7f858f;
 	--accent: #ed7a34;
 	--accent-hover: #ff9550;
 
@@ -96,7 +97,7 @@ body {
 /* small reusable surface for content blocks */
 .card {
 	background: var(--surface);
-	border: 1px solid var(--border);
+	border: 2px solid var(--border);
 	border-radius: var(--radius);
 	padding: 1.25rem;
 }
@@ -105,7 +106,7 @@ button {
 	font: inherit;
 	color: var(--text);
 	background: var(--surface-2);
-	border: 1px solid var(--border);
+	border: 2px solid var(--border);
 	border-radius: var(--radius);
 	padding: 0.5rem 0.9rem;
 	cursor: pointer;
