@@ -83,6 +83,7 @@ function dateKeyFor(ms) {
 }
 
 const daysAhead = 3;
+const daysBack = Number(process.env.DAYS_BACK ?? 0);
 
 let days = {};
 try {
@@ -95,9 +96,11 @@ const before = JSON.stringify(days);
 
 const todayMs = Date.now() - (Date.now() % msPerDay);
 const generated = [];
-for (let i = 0; i <= daysAhead; i++) {
+for (let i = -daysBack; i <= daysAhead; i++) {
 	const dayMs = todayMs + i * msPerDay;
 	const key = dateKeyFor(dayMs);
+	// don't overwrite already-frozen days when backfilling
+	if (days[key]) continue;
 	days[key] = chooseLevels(levels, dayMs);
 	generated.push(key);
 }
