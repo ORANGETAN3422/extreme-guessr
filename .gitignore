@@ -1,5 +1,8 @@
 node_modules
 
+# Generated on the data branch / at build time — never commit to main
+static/daily.json
+
 # Output
 .output
 .vercel

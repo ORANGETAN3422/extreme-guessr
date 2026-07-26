@@ -91,6 +91,8 @@ try {
 	// hi
 }
 
+const before = JSON.stringify(days);
+
 const todayMs = Date.now() - (Date.now() % msPerDay);
 const generated = [];
 for (let i = 0; i <= daysAhead; i++) {
@@ -98,6 +100,11 @@ for (let i = 0; i <= daysAhead; i++) {
 	const key = dateKeyFor(dayMs);
 	days[key] = chooseLevels(levels, dayMs);
 	generated.push(key);
+}
+
+if (JSON.stringify(days) === before) {
+	console.log('daily levels unchanged, nothing to write');
+	process.exit(0);
 }
 
 const payload = {

@@ -3,16 +3,18 @@ name: Deploy
 on:
   push:
     branches: [main]
+  schedule:
+    - cron: '50 23 * * *'
   workflow_dispatch: {}
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -20,11 +22,35 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Checkout data branch
+        uses: actions/checkout@v4
+        with:
+          ref: data
+          path: data-branch
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
 
       - run: npm ci
+
+      - name: Refresh + persist daily levels
+        run: |
+          mkdir -p static
+          cp data-branch/daily.json static/daily.json   # seed history
+          node scripts/update.mjs                        # merge today
+          cp static/daily.json data-branch/daily.json    # persist back
+
+          cd data-branch
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- daily.json; then
+            echo "daily.json unchanged"
+          else
+            git add daily.json
+            git commit -m "chore: update daily levels"
+            git push
+          fi
 
       - name: Build
         run: npm run build
