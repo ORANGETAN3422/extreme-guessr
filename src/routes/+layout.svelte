@@ -20,10 +20,10 @@
 	<title>Extreme Guessr</title>
 
 	<meta property="og:title" content="Extreme Guessr" />
-	<meta property="og:url" content="https://orangetan3422.github.io/extreme-guessr/screenshot" />
+	<meta property="og:url" content="https://orangetan3422.github.io/extreme-guessr/" />
 	<meta property="og:description" content="Guess the extreme demons from images. 3 new levels every daily." />
 	<meta property="og:type" content="website" />
-	<meta property="og:image" content={favicon} />
+	<meta property="og:image" content="https://orangetan3422.github.io/extreme-guessr/extreme-demon.png" />
 </svelte:head>
 
 <header class="app-header">
