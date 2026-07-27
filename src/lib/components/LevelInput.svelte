@@ -13,7 +13,7 @@
 	let error = $state('');
 
 	const suggestions = $derived.by(() => {
-		const q = value.trim().toLowerCase();
+		const q = value.toLowerCase();
 		if (!q) return [];
 		return names.filter((n) => n.toLowerCase().startsWith(q)).slice(0, max);
 	});
@@ -27,7 +27,7 @@
 	}
 
 	function submit() {
-		const match = names.find((n) => n.toLowerCase() === value.trim().toLowerCase());
+		const match = names.find((n) => n.toLowerCase() === value.toLowerCase());
 		if (!match) {
 			error = 'Please enter a valid name';
 			return;

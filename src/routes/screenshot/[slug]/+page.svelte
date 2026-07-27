@@ -1,4 +1,11 @@
 <script lang="ts">
+	//TODO
+	// fix slaugherhouse whitespace at the end f name bug done
+	// shortcut to go back to previous days if on previous rouds done
+	// idk another gamemode
+	// favicon
+	// og tags
+
 	import { thumbnailEndpoint, getAllLevels, allLevelNames } from '$lib/api.svelte';
 	import LevelInput from '$lib/components/LevelInput.svelte';
 	import { saveScreenshotDay, setScreenshotScoreDay } from '$lib/storage';
@@ -107,12 +114,20 @@
 			{/each}
 		</div>
 		<br />
-		<a
-			href={resolve('/screenshot/')}
-			class="mx-auto block w-fit rounded-md border-2 border-(--border) bg-(--surface-2) px-3 py-3 text-center font-medium transition-colors hover:border-(--accent)"
-		>
-			Return
-		</a>
+		<div class="flex flex-row justify-center gap-2">
+			<a
+				href={resolve('/screenshot/')}
+				class="rounded-md border-2 border-(--border) bg-(--surface-2) px-3 py-3 text-center font-medium transition-colors hover:border-(--accent)"
+			>
+				Return
+			</a>
+			<a
+				href={resolve('/screenshot/past')}
+				class="rounded-md border-2 border-(--border) bg-(--surface-2) px-3 py-3 text-center font-medium transition-colors hover:border-(--accent)"
+			>
+				Previous Days
+			</a>
+		</div>
 	{:else}
 		<h2 class="mb-1 text-center text-2xl font-bold tracking-wide">
 			Round {info.currentRound + 1}
@@ -142,7 +157,7 @@
 
 		{#if showName()}
 			<h1
-				class={`mt-6 px-2 text-center text-xl font-bold break-words sm:text-2xl ${!current.completed ? 'tracking-[0.12em] sm:tracking-[0.25em]' : ''}`}
+				class={`mt-6 px-2 text-center text-xl font-bold wrap-break-word sm:text-2xl ${!current.completed ? 'tracking-[0.12em] sm:tracking-[0.25em]' : ''}`}
 			>
 				{!current.completed ? createNameHint() : currentLevel.name}
 			</h1>

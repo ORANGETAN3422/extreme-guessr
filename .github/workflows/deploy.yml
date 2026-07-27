@@ -48,7 +48,7 @@ jobs:
             echo "daily.json unchanged"
           else
             git add daily.json
-            git commit -m "chore: update daily levels"
+            git commit -m "update daily levels"
             git push
           fi
 
