@@ -1,6 +1,6 @@
 <script lang="ts">
 	import './layout.css';
-	import favicon from '$lib/assets/favicon.svg';
+	import favicon from '$lib/assets/extreme-demon.png';
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 
@@ -15,7 +15,16 @@
 		href === resolve('/') ? page.url.pathname === href : page.url.pathname.startsWith(href);
 </script>
 
-<svelte:head><link rel="icon" href={favicon} /></svelte:head>
+<svelte:head>
+	<link rel="icon" href={favicon} />
+	<title>Extreme Guessr</title>
+
+	<meta property="og:title" content="Extreme Guessr" />
+	<meta property="og:url" content="https://orangetan3422.github.io/extreme-guessr/screenshot" />
+	<meta property="og:description" content="Guess the extreme demons from images. 3 new levels every daily." />
+	<meta property="og:type" content="website" />
+	<meta property="og:image" content={favicon} />
+</svelte:head>
 
 <header class="app-header">
 	<a href={resolve('/')} class="brand">Extreme Guessr</a>

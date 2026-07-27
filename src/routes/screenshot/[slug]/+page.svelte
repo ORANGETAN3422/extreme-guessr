@@ -3,8 +3,9 @@
 	// fix slaugherhouse whitespace at the end f name bug done
 	// shortcut to go back to previous days if on previous rouds done
 	// idk another gamemode
-	// favicon
-	// og tags
+	// favicon done
+	// og tags done
+	// fix box not fixing when enter wrong name autofill refilling done
 
 	import { thumbnailEndpoint, getAllLevels, allLevelNames } from '$lib/api.svelte';
 	import LevelInput from '$lib/components/LevelInput.svelte';
