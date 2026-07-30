@@ -14,6 +14,27 @@
 		href === resolve('/') ? page.url.pathname === href : page.url.pathname.startsWith(href);
 </script>
 
+<svelte:head>
+		<title>Extreme Guessr</title>
+		<meta
+			name="description"
+			content="Guess the extreme demons from images. 3 new levels every day."
+		/>
+		<meta name="theme-color" content="#ed7a34" />
+
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content="Extreme Guessr" />
+		<meta
+			property="og:description"
+			content="Guess the extreme demons from images. 3 new levels every day."
+		/>
+		<meta property="og:url" content="https://orangetan3422.github.io/extreme-guessr/" />
+		<meta
+			property="og:image"
+			content="https://orangetan3422.github.io/extreme-guessr/extreme-demon.png"
+		/>
+</svelte:head>
+
 <header class="app-header">
 	<a href={resolve('/')} class="brand">Extreme Guessr</a>
 	<nav class="app-nav">
