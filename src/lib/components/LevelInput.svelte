@@ -6,7 +6,7 @@
 		onsubmit: (value: string) => void;
 	}
 
-	let { names, placeholder = 'Guess the level...', max = 10, onsubmit }: Props = $props();
+	let { names, placeholder = 'Guess the level...', max = 6, onsubmit }: Props = $props();
 
 	let value = $state('');
 	let focused = $state(false);
