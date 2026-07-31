@@ -53,7 +53,10 @@
 			type="text"
 			bind:value
 			{placeholder}
-			oninput={() => {error = ''; focused = true;}}
+			oninput={() => {
+				error = '';
+				focused = true;
+			}}
 			onfocus={() => (focused = true)}
 			onblur={() => (focused = false)}
 			onkeydown={onKeydown}

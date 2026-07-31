@@ -24,6 +24,8 @@
 	const totalScore = $derived(info.screenshots.reduce((sum, s) => sum + s.score, 0));
 
 	$effect(() => {
+		if (data.funMode) return;
+
 		saveScreenshotDay(data.dateString, $state.snapshot(info));
 		setScreenshotScoreDay(data.dateString, {
 			date: data.dateString,
@@ -124,9 +126,16 @@
 			</a>
 			<a
 				href={resolve('/screenshot/past')}
+				data-sveltekit-reload={data.funMode ? true : undefined}
+				onclick={data.funMode
+					? (e) => {
+							e.preventDefault();
+							location.reload();
+						}
+					: undefined}
 				class="rounded-md border-2 border-(--border) bg-(--surface-2) px-3 py-3 text-center font-medium transition-colors hover:border-(--accent)"
 			>
-				Previous Days
+				{data.funMode ? "MORE!" : "Previous Days"}
 			</a>
 		</div>
 	{:else}
