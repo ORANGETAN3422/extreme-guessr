@@ -36,7 +36,12 @@
 </svelte:head>
 
 <header class="app-header">
-	<a href={resolve('/')} class="brand">Extreme Guessr</a>
+	<img
+		src="https://orangetan3422.github.io/extreme-guessr/extreme-demon.png"
+		alt=""
+		class="h-[2em] w-auto"
+	/>
+	<a href={resolve('/')} class="brand -ml-2">Extreme Guessr</a>
 	<nav class="app-nav">
 		{#each links as link (link.href)}
 			<a href={link.href} class="nav-link" class:active={isActive(link.href)}>
