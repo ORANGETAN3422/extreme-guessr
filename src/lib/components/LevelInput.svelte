@@ -12,10 +12,14 @@
 	let focused = $state(false);
 	let error = $state('');
 
+	function stripSuffix(name: string) {
+		return name.replace(/\s*\((?:solo|\d+p)\)\s*$/i, '').trim();
+	}
+
 	const suggestions = $derived.by(() => {
-		const q = value.toLowerCase();
+		const q = stripSuffix(value).toLowerCase();
 		if (!q) return [];
-		return names.filter((n) => n.toLowerCase().startsWith(q)).slice(0, max);
+		return names.filter((n) => stripSuffix(n).toLowerCase().startsWith(q)).slice(0, max);
 	});
 
 	const open = $derived(focused && suggestions.length > 0);
@@ -27,7 +31,8 @@
 	}
 
 	function submit() {
-		const match = names.find((n) => n.toLowerCase() === value.toLowerCase());
+		const guess = stripSuffix(value).toLowerCase();
+		const match = names.find((n) => stripSuffix(n).toLowerCase() === guess);
 		if (!match) {
 			error = 'Please enter a valid name';
 			return;
