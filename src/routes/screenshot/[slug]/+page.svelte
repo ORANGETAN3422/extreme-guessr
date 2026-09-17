@@ -35,8 +35,12 @@
 		});
 	});
 
+	export function stripSuffix(name: string) {
+		return name.replace(/\s*\((?:solo|2p)\)\s*$/i, '').trim().toLowerCase();
+	}
+
 	function handleGuess(value: string) {
-		complete(value.toLowerCase() === currentLevel.name.toLowerCase());
+		complete(stripSuffix(value) === stripSuffix(currentLevel.name));
 	}
 
 	const totalHints = 3;
@@ -135,7 +139,7 @@
 					: undefined}
 				class="rounded-md border-2 border-(--border) bg-(--surface-2) px-3 py-3 text-center font-medium transition-colors hover:border-(--accent)"
 			>
-				{data.funMode ? "MORE!" : "Previous Days"}
+				{data.funMode ? 'MORE!' : 'Previous Days'}
 			</a>
 		</div>
 	{:else}

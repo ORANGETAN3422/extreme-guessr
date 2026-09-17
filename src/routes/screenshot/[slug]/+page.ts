@@ -51,20 +51,24 @@ export const load = async ({ params, fetch }) => {
 		};
 	}
 
-	const funInfo = await constructScreenshots("fun", fetch, true);
+	const funInfo = await constructScreenshots('fun', fetch, true);
 	if (!funInfo) error(404, 'No levels for this day');
 
 	return {
 		date: new Date(Date.now()),
-		dateString: "fun-fun-fun",
+		dateString: 'fun-fun-fun',
 		info: funInfo,
 		funMode: true
-	}
+	};
 };
 
-async function constructScreenshots(dateKey: string, fetch: typeof globalThis.fetch, isFunMode = false) {
+async function constructScreenshots(
+	dateKey: string,
+	fetch: typeof globalThis.fetch,
+	isFunMode = false
+) {
 	let levels;
-	if (isFunMode){
+	if (isFunMode) {
 		levels = await chooseLevels(new Date(Date.now() - Math.random() * 36500 * msPerDay), fetch);
 		//console.log(levels);
 	} else {

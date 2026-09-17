@@ -13,7 +13,7 @@
 	let error = $state('');
 
 	function stripSuffix(name: string) {
-		return name.replace(/\s*\((?:solo|\d+p)\)\s*$/i, '').trim();
+		return name.replace(/\s*\((?:solo|2p)\)\s*$/i, '').trim();
 	}
 
 	const suggestions = $derived.by(() => {
