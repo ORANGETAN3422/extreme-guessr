@@ -32,6 +32,12 @@
 
 	function submit() {
 		const guess = stripSuffix(value).toLowerCase();
+		if (guess.replaceAll(' ', '') === '') {
+			error = '';
+			onsubmit('');
+			value = '';
+		}
+
 		const match = names.find((n) => stripSuffix(n).toLowerCase() === guess);
 		if (!match) {
 			error = 'Please enter a valid name';
@@ -70,7 +76,7 @@
 
 		{#if open}
 			<ul
-				class="absolute z-10 mt-1 max-h-64 w-full overflow-y-auto rounded-md border border-(--border) bg-(--surface) py-1 shadow-lg"
+				class="absolute bottom-full z-10 mb-1 max-h-64 w-full overflow-y-auto rounded-md border border-(--border) bg-(--surface) py-1 shadow-lg"
 			>
 				{#each suggestions as name (name)}
 					<li>

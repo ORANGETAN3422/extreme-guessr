@@ -36,11 +36,11 @@
 	});
 
 	export function stripSuffix(name: string) {
-		return name.replace(/\s*\((?:solo|2p)\)\s*$/i, '').trim().toLowerCase();
+		return name.replace(/\s*\((?:solo|2p)\)\s*$/i, '').trim();
 	}
 
 	function handleGuess(value: string) {
-		complete(stripSuffix(value) === stripSuffix(currentLevel.name));
+		complete(stripSuffix(value).toLowerCase() === stripSuffix(currentLevel.name).toLowerCase());
 	}
 
 	const totalHints = 3;
@@ -58,8 +58,10 @@
 	}
 
 	function createNameHint() {
-		const words = currentLevel.name.split(' ');
-		return words.map((word: string) => word.charAt(0) + '_'.repeat(word.length - 1)).join(' ');
+		return stripSuffix(currentLevel.name)
+			.split(' ')
+			.map((word: string) => word.charAt(0) + '_'.repeat(word.length - 1))
+			.join(' ');
 	}
 
 	function complete(isCorrect: boolean) {
